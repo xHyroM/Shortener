@@ -2,7 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { nanoid } from 'nanoid';
 import connectDB from '../../middleware/mongodb';
-import file from '../../models/file';
+import link from '../../models/link';
 import absoluteUrl from 'next-absolute-url';
 import { strToBool } from '../../utils/stringToBool';
 import { rateLimit } from '../../utils/rateLimit';
@@ -83,10 +83,12 @@ const handler = async(
 
 	const object: any = {
 		id: randomKey,
-		link: body.link
+		link: body.link,
+		withoutAuth: body.withoutAuth || true,
+		deleteKey: deleteKey
 	};
 
-	await file.create(object);
+	await link.create(object);
 
 	res.status(200).json({ 
 		name: 'OK',

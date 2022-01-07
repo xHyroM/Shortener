@@ -14,8 +14,8 @@ const Home: NextPage = () => {
 	const [infoAlert, setInfoAlert]: any = useState({ nothing: true });
 
 	const clearForm = () => {
-		const fileUploadForm: any = document.getElementById('fileUploadForm');
-		fileUploadForm?.reset();
+		const linkShorterForm: any = document.getElementById('linkShorterForm');
+		linkShorterForm?.reset();
 	};
 
 	const handleSubmit = async(event: any) => {
@@ -101,7 +101,7 @@ const Home: NextPage = () => {
 					}
 				</div> : '' } 
 
-				<form className='box' onSubmit={handleSubmit} id='fileUploadForm'>
+				<form className='box' onSubmit={handleSubmit} id='linkShorterForm'>
 					<div className='field file is-boxed is-fullwidth'>
 						<input className='input' id='linkUrl' type='text' placeholder="Text input" />
 					</div>

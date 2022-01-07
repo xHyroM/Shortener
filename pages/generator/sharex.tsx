@@ -30,21 +30,20 @@ const ShareX: NextPage = () => {
 	useEffect(() => {
 		const set = async() => {
 			const obj = {
-				'Version': '13.6.1',
-				'Name': 'Muploader',
-				'DestinationType': 'ImageUploader, TextUploader, FileUploader',
+				'Version': '13.7.0',
+				'Name': 'Shortener',
+				'DestinationType': 'URLShortener',
 				'RequestMethod': 'POST',
-				'RequestURL': `${window.location.origin}/api/uploadFile`,
-				'Body': 'MultipartFormData',
-				'Arguments': {
+				'RequestURL': `${window.location.origin}/api/short`,
+				'Body': 'JSON',
+				'Data': JSON.stringify({
 					'gcaptcha': 'none',
 					'tos-accept': 'true',
-					'withoutAuth': 'true'
-				},
-				'FileFormName': 'file',
+					'withoutAuth': 'true',
+					'link': '$input$'
+				}),
 				'URL': '$json:message.url$',
-				'DeletionURL': '$json:message.deleteUrl$',
-				'ThumbnailURL': '$json:message.downloadUrl$'
+				'DeletionURL': '$json:message.deleteUrl$'
 			};
     
 			let result;
@@ -77,8 +76,8 @@ const ShareX: NextPage = () => {
 	return (
 		<div>
 			<Head>
-				<title>Muploader</title>
-				<meta name='description' content='Muploader | Easy to share files' />
+				<title>Shortener</title>
+				<meta name='description' content='Shortener | Easy to short link' />
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 

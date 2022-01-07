@@ -48,10 +48,7 @@ async function handler(
         !req.query['config']['RequestMethod'] ||
         !req.query['config']['RequestURL'] ||
         !req.query['config']['Body'] ||
-        !req.query['config']['Arguments'] ||
-        req.query['config']['Arguments']['gcaptcha'] !== 'none' ||
-        req.query['config']['Arguments']['tos-accept'] !== 'true' ||
-        req.query['config']['FileFormName'] !== 'file' ||
+        !req.query['config']['Data'] ||
         req.query['config']['URL'] !== '$json:message.url$'
 	) return res.status(400).json({
 		name: 'BAD REQUEST',
