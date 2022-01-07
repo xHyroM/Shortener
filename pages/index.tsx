@@ -56,7 +56,10 @@ const Home: NextPage = () => {
 			method: 'POST',
 			url: window.location + 'api/short',
 			body: JSON.stringify({
-				gcaptcha: recaptchaToken || 'none'
+				link: link.value,
+				gcaptcha: recaptchaToken || 'none',
+				'tos-accept': ToSCheckBox.checked,
+				withoutAuth: checkbox.checked
 			}),
 			headers: {
 				'Authorization': result?.value
@@ -84,7 +87,7 @@ const Home: NextPage = () => {
 
 			<main>
 				<h1 className='title'>
-          			Easy to short link!
+					Easy to short link!
 				</h1>
 
 				{ !infoAlert.nothing ? <div className='notification is-primary is-light'>
@@ -119,7 +122,7 @@ const Home: NextPage = () => {
 					<div className='field control checkbox is-checkbox'>
 						<label className='checkbox'>
 							<input type='checkbox' id='tosCheckbox' />
-              					I agree to the <Link href='/tos'><a>terms and services</a></Link>
+								I agree to the <Link href='/tos'><a>terms and services</a></Link>
 						</label>
 					</div>
 
