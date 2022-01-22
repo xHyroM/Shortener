@@ -7,6 +7,6 @@ const schema = new Schema({
 	deleteKey: { type: String, required: true }
 });
 
-global.fileSchema = global.linkSchema || model('link', schema);
+global.linkSchema = global.linkSchema || model('link', schema);
 
 export default global.linkSchema;

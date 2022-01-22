@@ -1,6 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
-import * as fs from 'fs';
 import connectDB from '../../middleware/mongodb';
 import link from '../../models/link';
 import { strToBool } from '../../utils/stringToBool';
@@ -11,7 +10,7 @@ type Data = {
     data?: object;
 }
 
-const deleteLink = (req: NextApiRequest, res: NextApiResponse<Data>, fileId: string, deleteKey: string, path: string, ui?: boolean) => {
+const deleteLink = (req: NextApiRequest, res: NextApiResponse<Data>, linkId: string, deleteKey: string, path: string, ui?: boolean) => {
 	if (
 		strToBool(process.env.NEXT_PUBLIC_AUTHORIZATION) &&
     (req.headers['authorization'] !== process.env.AUTHORIZATION_TOKEN) &&
@@ -23,7 +22,7 @@ const deleteLink = (req: NextApiRequest, res: NextApiResponse<Data>, fileId: str
 	) return res.status(403).json({ name: 'Forbidden', message: 'Invalid delete key!' });
 
 	// eslint-disable-next-line @typescript-eslint/no-empty-function
-	link.findOneAndDelete({ id: fileId }, () => {});
+	link.findOneAndDelete({ id: linkId }, () => {});
 
 	if (!ui) {
 		res.status(200).json({
@@ -41,9 +40,9 @@ const handler = async(
 ) => {
 	if (!req.query.id) return res.status(400).json({ name: 'BAD REQUEST', message: 'Please add ?id to query' });
 
-	const fileId = req.query.id as string;
+	const linkId = req.query.id as string;
 
-	const schema = await link.findOne({ id: fileId }).exec();
+	const schema = await link.findOne({ id: linkId }).exec();
 	if (!schema) return res.status(404).json({ name: 'NOT FOUND', message: 'Invalid ?id' });
 
 	if (
@@ -55,14 +54,14 @@ const handler = async(
 
 	switch(req.method) {
 		case 'GET':
-			if (req.query.del) deleteLink(req, res, fileId, schema.deleteKey, schema.path, true);
+			if (req.query.del) deleteLink(req, res, linkId, schema.deleteKey, schema.path, true);
 			else {
 				res.redirect(schema.link);
 			}
 			break;
 
 		case 'DELETE':
-			deleteLink(req, res, fileId, schema.deleteKey, schema.path);
+			deleteLink(req, res, linkId, schema.deleteKey, schema.path);
 			break;
 
 		default:

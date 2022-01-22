@@ -8,7 +8,15 @@ import Link from 'next/link';
 import { strToBool } from '../utils/stringToBool';
 import hyttpo from 'hyttpo';
 
-const Home: NextPage = () => {
+export const getServerSideProps = ({ query }) => {
+	return { props: { query: Object.keys(query) } }
+};
+
+const Home: NextPage = ({ query }: any) => {
+	if (query[0] && process.browser) {
+		window.location.replace(`/api/link?id=${query[0]}`)
+	}
+
 	const { executeRecaptcha } = useGoogleReCaptcha();
 
 	const [infoAlert, setInfoAlert]: any = useState({ nothing: true });
@@ -21,7 +29,7 @@ const Home: NextPage = () => {
 	const handleSubmit = async(event: any) => {
 		event.preventDefault();
 
-		const recaptchaToken = await executeRecaptcha('upload');
+		const recaptchaToken = await executeRecaptcha('short');
   
 		let result;
 		if (strToBool(process.env.NEXT_PUBLIC_AUTHORIZATION)) {
@@ -111,7 +119,7 @@ const Home: NextPage = () => {
 							<div className='field control checkbox is-checkbox'>
 								<label className='checkbox'>
 									<input type='checkbox' id='withoutAuth'/>
-                See file without authorization
+                Redirect without authorization
 								</label>
 							</div>
 							<br />
